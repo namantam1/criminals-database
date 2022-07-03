@@ -20,6 +20,6 @@
         }
     },
     "scripts": {
-        "postdeploy": "python manage.py createsuperuser --settings project.settings_prod --username admin --email admin@test.com"
+        "postdeploy": "python manage.py createsuperuser --settings project.settings_prod --username admin --email admin@test.com --noinput"
     }
 }
