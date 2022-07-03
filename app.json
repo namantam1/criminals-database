@@ -1,0 +1,19 @@
+{
+    "name": "Criminals Database",
+    "description": "A simple application to find criminals by their face only",
+    "keywords": ["Face Recognition", "Deep Neural Network", "CNN"],
+    "repository": "https://github.com/namantam1/criminals-database",
+    "stack": "heroku-20",
+    "env": {
+        "SECRET_TOKEN": {
+            "description": "A secret key for verifying the integrity of signed cookies.",
+            "generator": "secret"
+        },
+        "MONGO_URL": {
+            "description": "Go to https://cloud.mongodb.com create a database and generate access url with sufficient permission and paste here. It will be in the format `mongodb+srv://<username>:<password>@<host>`"
+        },
+        "CLOUDINARY_URL": {
+            "description": "Go to https://cloudinary.com create an accout and from dashboard paste access url. It will be in the format `cloudinary://<access>:<secret>@<cloud>`"
+        }
+    }
+}
