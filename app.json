@@ -14,6 +14,12 @@
         },
         "CLOUDINARY_URL": {
             "description": "Go to https://cloudinary.com create an accout and from dashboard paste access url. It will be in the format `cloudinary://<access>:<secret>@<cloud>`"
+        },
+        "DJANGO_SUPERUSER_PASSWORD": {
+            "description": "Password for first time login. Username will be `admin` and email will be `admin@test.com`."
         }
+    },
+    "scripts": {
+        "postdeploy": "python manage.py createsuperuser --settings project.settings_prod --username admin --email admin@test.com"
     }
 }
