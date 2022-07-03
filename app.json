@@ -1,0 +1,29 @@
+{
+    "name": "Criminals Database",
+    "description": "A simple application to find criminals by their face only",
+    "keywords": ["Face Recognition", "Deep Neural Network", "CNN"],
+    "repository": "https://github.com/namantam1/criminals-database",
+    "stack": "heroku-20",
+    "env": {
+        "SECRET_TOKEN": {
+            "description": "A secret key for verifying the integrity of signed cookies.",
+            "generator": "secret"
+        },
+        "DJANGO_SETTINGS_MODULE": {
+            "description": "Don't change this",
+            "value":"project.settings_prod"
+        },
+        "MONGO_URL": {
+            "description": "Go to https://cloud.mongodb.com create a database and generate access url with sufficient permission and paste here. It will be in the format `mongodb+srv://<username>:<password>@<host>`"
+        },
+        "CLOUDINARY_URL": {
+            "description": "Go to https://cloudinary.com create an accout and from dashboard paste access url. It will be in the format `cloudinary://<access>:<secret>@<cloud>`"
+        },
+        "DJANGO_SUPERUSER_PASSWORD": {
+            "description": "Password for first time login. Username will be `admin` and email will be `admin@test.com`."
+        }
+    },
+    "scripts": {
+        "postdeploy": "python manage.py createsuperuser --username admin --email admin@test.com --noinput"
+    }
+}
