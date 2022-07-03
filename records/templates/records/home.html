@@ -1,0 +1,271 @@
+{% include "records/base.html" %} {% block head %}
+<style>
+    .files input {
+        outline: 2px dashed #92b0b3;
+        outline-offset: -10px;
+        -webkit-transition: outline-offset 0.15s ease-in-out,
+            background-color 0.15s linear;
+        transition: outline-offset 0.15s ease-in-out,
+            background-color 0.15s linear;
+        padding: 85px 20%;
+        text-align: center !important;
+        margin: 30px 0;
+        width: 100% !important;
+    }
+    .files input:focus {
+        outline: 2px dashed #92b0b3;
+        outline-offset: -10px;
+        -webkit-transition: outline-offset 0.15s ease-in-out,
+            background-color 0.15s linear;
+        transition: outline-offset 0.15s ease-in-out,
+            background-color 0.15s linear;
+        border: 1px solid #92b0b3;
+    }
+    .files {
+        position: relative;
+    }
+    .color input {
+        background-color: #f1f1f1;
+    }
+    .files:before {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        pointer-events: none;
+        width: 100%;
+        right: 0;
+        height: 57px;
+        content: " or drag it here. ";
+        display: block;
+        margin: 0 auto;
+        color: #2ea591;
+        font-weight: 600;
+        text-transform: capitalize;
+        text-align: center;
+    }
+
+    .upload-container {
+        max-width: 600px;
+        margin: auto;
+    }
+</style>
+<title>Home</title>
+{% endblock head %} {% block body %}
+<div class="upload-container mt-5">
+    <div class="container-fluid">
+        <form id="search-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="text-center">
+                <div class="form-group files">
+                    <label
+                        >Select or drop an image here to search in
+                        Database</label
+                    >
+                    <input
+                        required
+                        type="file"
+                        class="form-control"
+                        name="image"
+                        id="search-image"
+                        accept="image/*"
+                    />
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Search</button>
+            <button
+                data-bs-toggle="modal"
+                data-bs-target="#add-new-modal"
+                type="button"
+                class="btn btn-success"
+            >
+                Add New
+            </button>
+        </form>
+    </div>
+
+    <section class="py-5 header text-center">
+        <div class="container py-4">
+            <header>
+                <h1 class="display-4">Search Results</h1>
+                <p class="font-italic text-muted mb-1">
+                    Use Masonry layouts with Bootstrap 4 grid system, using
+                    imagesLoaded plugin to fix the page loading issue.
+                </p>
+                <p class="font-italic text-muted">
+                    Snippet by
+                    <a class="text-dark" href="https://bootstrapious.com/">
+                        <u>Bootstrapious</u></a
+                    >
+                </p>
+            </header>
+        </div>
+    </section>
+
+    <section class="pb-5">
+        <div class="container text-center">
+            <div class="row">
+                {% for d in data %}
+                <div class="col-lg-4 col-md-6 grid-item mb-4">
+                    <img
+                        class="img-fluid w-100 mb-3 img-thumbnail shadow-sm rounded-0"
+                        src="{{d.image_uri}}"
+                        alt="{{d.ref_no}}"
+                    />
+                    <a href="{% url 'details' d.ref_no %}">
+                        <h2 class="h4">{{d.name}}</h2>
+                    </a>
+                    <p class="small text-muted font-italic">
+                        Distance - {{d.distance}}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <div
+        class="modal fade"
+        id="add-new-modal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                        Add New Image
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <form
+                        id="add-form"
+                        action="{% url 'add-new' %}"
+                        method="post"
+                        enctype="multipart/form-data"
+                    >
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="add-name" class="form-label"
+                                >Name</label
+                            >
+                            <input
+                                required
+                                name="name"
+                                type="text"
+                                class="form-control"
+                                id="add-name"
+                                placeholder="Enter name..."
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="add-mobile" class="form-label"
+                                >Mobile</label
+                            >
+                            <input
+                                required
+                                name="mobile"
+                                type="text"
+                                class="form-control"
+                                id="add-mobile"
+                                placeholder="Enter name..."
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="add-image" class="form-label"
+                                >Image</label
+                            >
+                            <input
+                                name="image"
+                                class="form-control"
+                                type="file"
+                                accept="image/*"
+                                id="add-image"
+                            />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Save
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function fileToImage(file) {
+        return new Promise((res) => {
+            const fileReader = new FileReader();
+            const image = new Image();
+            fileReader.onload = function () {
+                image.src = fileReader.result;
+                image.name = file.name;
+                image.type = file.type;
+                res(image);
+            };
+            fileReader.readAsDataURL(file);
+        });
+    }
+
+    function resize(image, maxSize = 600) {
+        return new Promise((resolve, reject) => {
+            let width = image.width;
+            let height = image.height;
+            if (width > height) {
+                if (width > maxSize) {
+                    height *= maxSize / width;
+                    width = maxSize;
+                }
+            } else {
+                if (height > maxSize) {
+                    width *= maxSize / height;
+                    height = maxSize;
+                }
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            canvas.getContext("2d").drawImage(image, 0, 0, width, height);
+            canvas.toBlob((blob) => {
+                const dt = new DataTransfer();
+                dt.items.add(new File([blob], image.name));
+
+                resolve(dt);
+            }, image.type);
+        });
+    }
+
+    document
+        .getElementById("add-form")
+        .addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const imgElement = document.getElementById("add-image");
+            const img = await fileToImage(imgElement.files[0]);
+            const resized_files = await resize(img);
+            imgElement.files = resized_files.files;
+            this.submit();
+        });
+
+    document
+        .getElementById("search-form")
+        .addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const imgElement = document.getElementById("search-image");
+            const img = await fileToImage(imgElement.files[0]);
+            const resized_files = await resize(img);
+            imgElement.files = resized_files.files;
+            this.submit();
+        });
+</script>
+{% endblock body %}

@@ -1,0 +1,34 @@
+{% extends 'records/base.html' %}
+
+{% block head %}
+<style>
+    .image {
+        height: 250px;
+        width: 250px;
+    }
+</style>
+{% endblock head %}
+
+{% block body %}
+<div class="container">
+    <div class="card w-75 m-auto">
+        <div class="card-body">
+          <h5 class="card-title">{{record.name}}</h5>
+          <p class="card-text">{{record.address}}</p>
+          <a href="#" class="btn btn-primary">Add Images</a>
+
+          <div class="row">
+            {% for image in record.images %}
+            <div class="col-lg-4 col-md-6 grid-item mb-4">
+                <img
+                class="img-fluid m-3 img-thumbnail shadow-sm rounded-0 image"
+                src="{{image.image_uri}}"
+                alt="{{image.image_uri}}"
+                />
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
