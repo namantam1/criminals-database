@@ -9,6 +9,10 @@
             "description": "A secret key for verifying the integrity of signed cookies.",
             "generator": "secret"
         },
+        "DJANGO_SETTINGS_MODULE": {
+            "description": "Don't change this",
+            "value":"project.settings_prod"
+        },
         "MONGO_URL": {
             "description": "Go to https://cloud.mongodb.com create a database and generate access url with sufficient permission and paste here. It will be in the format `mongodb+srv://<username>:<password>@<host>`"
         },
@@ -20,6 +24,6 @@
         }
     },
     "scripts": {
-        "postdeploy": "python manage.py createsuperuser --settings project.settings_prod --username admin --email admin@test.com --noinput"
+        "postdeploy": "python manage.py createsuperuser --username admin --email admin@test.com --noinput"
     }
 }
